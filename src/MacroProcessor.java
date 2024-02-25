@@ -98,28 +98,20 @@ public class MacroProcessor {
 
     private void processMacroDefinition(BufferedReader br, String macroDefinition) throws IOException {
         String[] trimmedDefinition = macroDefinition.split("\\s+");
-        // verificar se ja existe MACRO com esse name
-        // verificar se esta correta a definicao
+        String macroName = trimmedDefinition[0]; // Obtendo o nome da macro
+        Macro macro = new Macro();
+        List<String> macroLines = new ArrayList<>();
         
-        // if (!trimmedDefinition[0].toUpperCase().equals("MACRO")) {
-        //     throw new IllegalArgumentException("Erro: Definição de macro inválida. Linha: " + trimmedDefinition);
-        // }
-        if (trimmedDefinition[0].startsWith("MACRO") && trimmedDefinition[1].startsWith("MACRO")) {
-            String macroName = trimmedDefinition[0]; // Obtendo o nome da macro
-            Macro macro = new Macro();
-            List<String> macroLines = new ArrayList<>();
-            
-            String line;
-            while ((line = br.readLine().trim()) != null) {
-                if (line.trim().equals("MEND")) {
-                    break;
-                }
-                macroLines.add(line);
+        String line;
+        while ((line = br.readLine().trim()) != null) {
+            if (line.trim().equals("MEND")) {
+                break;
             }
-            
-            macro.setLines(macroLines);
-            macros.put(macroName, macro);
+            macroLines.add(line);
         }
+        
+        macro.setLines(macroLines);
+        macros.put(macroName, macro);
     }
     
     
